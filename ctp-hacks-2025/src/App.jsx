@@ -38,10 +38,10 @@ function ApiHello() {
   const [message, setMessage] = useState('')
 
   const fetchMessage = async () => {
-    const res = await fetch('https://ctp-hacks-2025-maida5s-projects.vercel.app/', {
+    const res = await fetch('https://ctp-hacks-2025.vercel.app/hello', {
         // mode: 'no-cors',
         method: 'GET'
-        // headers: {'Access-Control-Allow-Origin': '*'
+        // headers: {'Access- Control-Allow-Origin': '*'
         }
     )
     console.log('ERROR 1?')

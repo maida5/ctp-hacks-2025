@@ -14,13 +14,14 @@ app.add_middleware(
     CORSMiddleware,
     # allow_origins=["https://ctp-hacks-2025-maida5s-projects.vercel.app/","https://ctp-hacks-2025-maida5-maida5s-projects.vercel.app/"],  # Or specify your frontend URL
     allow_origins=["*"],
-    allow_credentials=True,
+    allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
 @app.get("/hello")
 def root():
+    console.log("Hello World")
     return {"message": "Hello World"}
 
 @app.post("/")
