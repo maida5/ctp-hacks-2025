@@ -29,8 +29,7 @@ for idx, item in enumerate(results['items']):
     track = item['track']
     print(f"{idx+1}. {track['artists'][0]['name']} - {track['name']}")
 
-# print("Spotify client initialized ✅")
-print("Client ID:", os.getenv("SPOTIPY_CLIENT_ID"))
+print("Spotify client initialized ✅")
 
 # import spotipy
 # from spotipy.oauth2 import SpotifyOAuth
