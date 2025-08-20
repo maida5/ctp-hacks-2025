@@ -28,7 +28,25 @@ function App() {
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
+      <ApiHello />
     </>
+  )
+}
+
+function ApiHello() {
+  const [message, setMessage] = useState('')
+
+  const fetchMessage = async () => {
+    const res = await fetch('https://ctp-hacks-2025-maida5s-projects.vercel.app/')
+    const data = await res.json()
+    setMessage(data.message)
+  }
+
+  return (
+    <div>
+      <button onClick={fetchMessage}>Get API Message</button>
+      <div>{message}</div>
+    </div>
   )
 }
 
