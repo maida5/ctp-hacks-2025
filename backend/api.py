@@ -21,7 +21,6 @@ app.add_middleware(
 
 @app.get("/hello")
 def root():
-    console.log("Hello World")
     return {"message": "Hello World"}
 
 # @app.post("/")
