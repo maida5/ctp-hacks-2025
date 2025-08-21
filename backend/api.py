@@ -66,17 +66,15 @@ async def analyze_images(
         data = await up.read()
         parts.append(types.Part.from_bytes(data=data, mime_type=ctype))
 
-    print(top_songs)
-
     # Prompt adapts to multiple
     count = len(parts)
     prompt = (
         f"You are given {count} photo(s) and spotify user data and their top 50 songs. "
-        f"this is there top 50 songs: {top_songs}. "
+        f"These are their top 50 songs: {top_songs}. "
         "Infer their collective vibe (mood, energy, aesthetics). "
         "Then recommend 5–8 songs in the format 'Song – Artist' that match that shared vibe while incorporating their own music taste. "
         "Output:\n"
-        "• A 1–2 sentence vibe summary.\n"
+        "• A 2 sentence vibe summary.\n"
         "• A numbered list of songs (Song – Artist)."
     )
 

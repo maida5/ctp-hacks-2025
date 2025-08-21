@@ -9,18 +9,21 @@ def set_up_spotify_client():
     load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '.env'))
 
     # Define the scope: adjust based on what data you need
-    scope = ["user-library-read","user-top-read", "playlist-modify-public", "playlist-modify-private"]
+    scope = ["user-library-read","user-top-read", "playlist-modify-public", "playlist-modify-private", "playlist-read-private"]  # allows reading your saved tracks and top tracks, modifying playlists
     # allows reading your saved tracks
 
-    # Authenticate with Spotify using OAuth
-    sp = spotipy.Spotify(
-        auth_manager=SpotifyOAuth(
-            scope=scope,
-            client_id=os.getenv("SPOTIPY_CLIENT_ID"),
-            client_secret=os.getenv("SPOTIPY_CLIENT_SECRET"),
-            redirect_uri=os.getenv("SPOTIPY_REDIRECT_URI")
+    try:
+        # Authenticate with Spotify using OAuth
+        sp = spotipy.Spotify(
+            auth_manager=SpotifyOAuth(
+                scope=scope,
+                client_id=os.getenv("SPOTIPY_CLIENT_ID"),
+                client_secret=os.getenv("SPOTIPY_CLIENT_SECRET"),
+                redirect_uri=os.getenv("SPOTIPY_REDIRECT_URI")
+            )
         )
-    )
+    except Exception as e:
+        print(f"Error setting up Spotify client: {e}")
     return sp
 
 
