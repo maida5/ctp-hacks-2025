@@ -4,8 +4,7 @@ import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 import pprint
 
-def get_spotify_top_songs():
-
+def set_up_spotify_client():
     # Load environment variables from .env
     load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '.env'))
 
@@ -22,6 +21,11 @@ def get_spotify_top_songs():
             redirect_uri=os.getenv("SPOTIPY_REDIRECT_URI")
         )
     )
+    return sp
+
+
+def get_spotify_top_songs():
+    sp = set_up_spotify_client()
 
     # Get the user's saved tracks
     print("Fetching your saved tracks...")
@@ -50,3 +54,9 @@ def get_spotify_top_songs():
     print("Top songs:")
     print(top_songs)
     return top_songs
+
+def return_spotify_songs():
+    sp = set_up_spotify_client()
+
+
+
