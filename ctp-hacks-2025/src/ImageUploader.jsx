@@ -28,49 +28,49 @@ function ImageUploader() {
     })
   }
 
-  // step 1: make function
-  async function generatePlaylist(files) {
-    console.log('Generating playlist for files:', files)
-    const uploadPromises = files.map(file => {
-      console.log('File type:', file)
-      const formData = new FormData()
-      formData.append('filedata', file)
-      // const data = {
-      //   // filename: index,
-      //   filedata: file
-      // }
+  // // step 1: make function
+  // async function generatePlaylist(files) {
+  //   console.log('Generating playlist for files:', files)
+  //   const uploadPromises = files.map(file => {
+  //     console.log('File type:', file)
+  //     const formData = new FormData()
+  //     formData.append('filedata', file)
+  //     // const data = {
+  //     //   // filename: index,
+  //     //   filedata: file
+  //     // }
 
-      return fetch('http://localhost:8000/', {
-        method: 'POST',
-        body: JSON.stringify(formData)
-      })
-        .then(response => response.json())
-        .then(data => {
-          console.log('File uploaded successfully:', data)
-          return data
-        })
-        .catch(error => {
-          console.error('Error uploading file:', error)
-        })
-    })
+  //     return fetch('http://localhost:8000/', {
+  //       method: 'POST',
+  //       body: JSON.stringify(formData)
+  //     })
+  //       .then(response => response.json())
+  //       .then(data => {
+  //         console.log('File uploaded successfully:', data)
+  //         return data
+  //       })
+  //       .catch(error => {
+  //         console.error('Error uploading file:', error)
+  //       })
+  //   })
 
-    const results = await Promise.all(uploadPromises)
-    console.log('All files processed:', results)
+  //   const results = await Promise.all(uploadPromises)
+  //   console.log('All files processed:', results)
 
-    return (
-      <div>
-        <h3>Generated Playlists</h3>
-        <ul>
-          {results.map((result, index) => (
-            <li key={index}>{result}</li>
-          ))}
-        </ul>
-      </div>
-    )
+  //   return (
+  //     <div>
+  //       <h3>Generated Playlists</h3>
+  //       <ul>
+  //         {results.map((result, index) => (
+  //           <li key={index}>{result}</li>
+  //         ))}
+  //       </ul>
+  //     </div>
+  //   )
 
 
 
-  }
+  // }
 
   // remove a single image
   function handleRemoveImage(index) {
@@ -95,9 +95,9 @@ function ImageUploader() {
             <button onClick={() => handleRemoveImage(index)} style={{ marginTop: '5px' }}>
               Remove
             </button>
-            <button onClick={() => generatePlaylist(images)} style={{ marginLeft: '10px' }}>
+            {/* <button onClick={() => generatePlaylist(images)} style={{ marginLeft: '10px' }}>
               Generate Playlist
-            </button>
+            </button> */}
           </div>
         ))}
       </div>
