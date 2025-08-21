@@ -4,14 +4,13 @@ import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 import pprint
 
-# Load environment variables from .env
+# load environment variables from .env
 load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '.env'))
 
-# Define the scope: adjust based on what data you need
-scope = ["user-library-read","user-top-read"]
-  # allows reading your saved tracks
+# define the scope: adjust based on what data you need
+scope = "user-library-read" # allows reading your saved tracks
 
-# Authenticate with Spotify using OAuth
+# authenticate with spotify using OAuth
 sp = spotipy.Spotify(
     auth_manager=SpotifyOAuth(
         scope=scope,
@@ -21,29 +20,32 @@ sp = spotipy.Spotify(
     )
 )
 
-# Get the user's saved tracks
-print("Fetching your saved tracks...")
-results = sp.current_user_top_tracks(limit=50, offset=0, time_range='medium_term')
+# get user's saved tracks
+results = sp.current_user_saved_tracks(limit=10)
 
-# pprint.pp(results['items'][0]['album']['name'])
-# pprint.pp(results['items'][0]['name'])
-# # Display saved tracks
-# for idx, item in enumerate(results['items']):
-#     track = item['track']
-#     print(f"{idx+1}. {track['artists'][0]['name']} - {track['name']}")
+# display saved tracks
+for idx, item in enumerate(results['items']):
+    track = item['track']
+    print(f"{idx+1}. {track['artists'][0]['name']} - {track['name']}")
 
-top_songs = ""
 
-for item in results['items']:
-    track = item['album']
-    # print(f"Name: {track['name']}")
-    top_songs += f"{item['name']} - "
-    for artists in track['artists']:
-        top_songs += f"{artists['name']}, "
-        # pprint.pp(f"Artist: {artists['name']}")
-
-    top_songs += "\n"
+def search_song_on_spotify(song_name, limit=1):
+    """
+    Search for a song on Spotify by name.
+    Returns a dict with track name, artist, album, cover image, preview URL, and Spotify link.
+    """
+    results = sp.search(q=song_name, type="track", limit=limit)
     
-    # pprint.pp(f"Artist: {track['artists']}")
-print("Top songs:")
-print(top_songs)
+    if results["tracks"]["items"]:
+        track = results["tracks"]["items"][0]
+        return {
+            "name": track["name"],
+            "artist": track["artists"][0]["name"],
+            "album": track["album"]["name"],
+            "cover_image": track["album"]["images"][0]["url"],
+            "preview_url": track["preview_url"],
+            "spotify_url": track["external_urls"]["spotify"]
+        }
+    else:
+        return None
+
