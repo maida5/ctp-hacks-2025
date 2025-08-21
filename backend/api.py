@@ -1,4 +1,4 @@
-from fastapi import FastAPI, UploadFile, File
+from fastapi import FastAPI, UploadFile, File, Form
 # import google
 from google import genai
 from dotenv import load_dotenv
@@ -25,29 +25,33 @@ def root():
     return {"message": "Hello World"}
 
 # @app.post("/")
-# async def make_playlist(file: UploadFile = File(...)):
-#     # load_dotenv()
-#     # api_key = os.getenv('GEMINI_KEY', 'default_key')
+# async def make_playlist(filedata: str = Form(...)):
+#     load_dotenv()
+#     api_key = os.getenv('GEMINI_KEY', 'default_key')
 
-#     # with open('test.jpg', 'rb') as f:
-#     #     image_bytes = f.read()
+#     image_as_bytes = str.encode(filedata)  # convert string to bytes
+#     img_recovered = base64.b64decode(image_as_bytes)
 
-#     # client = genai.Client(api_key=os.getenv('GEMINI_KEY', 'default_key'))
+#     with open(filename, 'wb') as f:
+#         # image_bytes = f.read()
+#         f.write(img_recovered)
 
-#     # # when we do the actual api, make sure to change the mime_type so that it fits with the uploaders image
-#     # response = client.models.generate_content(
-#     #     model='gemini-2.5-flash',
-#     #     contents=[
-#     #         types.Part.from_bytes(
-#     #         data=image_bytes,
-#     #         mime_type='image/jpeg',
-#     #         ),
-#     #         'You are posting this picture onto social media, such as Instagram. You want to add a song to the image that encapsulates the feeling that the image represents. Give a couple of song options.'
-#     #     ]
-#     # )
-#     # console.log(response.text)
-#     # return jsonable_encoder(response.text)
-#     return {file.filename: "File received successfully"}
+#     client = genai.Client(api_key=os.getenv('GEMINI_KEY', 'default_key'))
+
+#     # when we do the actual api, make sure to change the mime_type so that it fits with the uploaders image
+#     response = client.models.generate_content(
+#         model='gemini-2.5-flash',
+#         contents=[
+#             types.Part.from_bytes(
+#             data=f,
+#             mime_type='image/jpeg',
+#             ),
+#             'You are posting this picture onto social media, such as Instagram. You want to add a song to the image that encapsulates the feeling that the image represents. Give a couple of song options.'
+#         ]
+#     )
+#     print(response.text)
+#     return jsonable_encoder(response.text)
+#     # return {file.filename: "File received successfully"}
 
 # import requests
 
