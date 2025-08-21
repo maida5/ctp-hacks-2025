@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 
 function ImageUploader() {
   const [images, setImages] = useState([]);
-  const [isHovering, setIsHovering] = useState(false); // Make sure this line is present
+  const [isHovering, setIsHovering] = useState(false);
   const fileInputRef = useRef(null); 
 
   // load upload images from sessionStorage
@@ -36,7 +36,7 @@ function ImageUploader() {
     sessionStorage.removeItem('uploadedImages');
   };
 
-  // Define button colors
+  // button colors
   const buttonColor = isHovering ? '#e0e1dd' : '#fefae0';
 
   return (
@@ -50,14 +50,14 @@ function ImageUploader() {
         style={{ display: 'none' }}
       />
       
-      {/* Use state to manage the style */}
+      {/* use state to manage the style */}
       <button 
         onClick={() => fileInputRef.current.click()}
         onMouseEnter={() => setIsHovering(true)}
         onMouseLeave={() => setIsHovering(false)}
         style={{
           padding: '10px 20px',
-          backgroundColor: buttonColor, // Use the state-driven color
+          backgroundColor: buttonColor, 
           color: 'black',
           borderRadius: '5px',
           cursor: 'pointer',
@@ -84,7 +84,7 @@ function ImageUploader() {
               borderRadius: '5px',
               cursor: 'pointer',
               transition: 'background-color 0.3s ease',
-              fontFamily: 'Delius Swash Caps, cursive'
+              fontFamily: 'Red Hat Text, sans-serif'
             }}
             onMouseEnter={(e) => { e.target.style.backgroundColor = '#e0e1dd'; }}
             onMouseLeave={(e) => { e.target.style.backgroundColor = '#fefae0'; }}
