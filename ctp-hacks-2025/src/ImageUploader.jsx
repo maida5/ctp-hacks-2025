@@ -73,17 +73,69 @@ function ImageUploader() {
   // }
 
   // remove a single image
-  function handleRemoveImage(index) {
-    const updatedImages = images.filter((_, i) => i !== index)
-    setImages(updatedImages)
-    sessionStorage.setItem('uploadedImages', JSON.stringify(updatedImages))
-  }
+  // function handleRemoveImage(index) {
+  //   const updatedImages = images.filter((_, i) => i !== index)
+  //   setImages(updatedImages)
+  //   sessionStorage.setItem('uploadedImages', JSON.stringify(updatedImages))
+  // }
 
-  // step 2: add it to the component
+  const handleRemoveAllImages = () => {
+    setImages([]); // This clears the entire array, removing all images
+  };
+
   return (
     <div style={{ textAlign: 'center', marginTop: '20px' }}>
-      <input type="file" accept="image/*" multiple onChange={handleImageUpload} />
+      <input
+        type="file"
+        id="file-upload"
+        accept="image/*"
+        multiple
+        onChange={handleImageUpload}
+        style={{ display: 'none' }}
+      />
+
+      <label
+        htmlFor="file-upload"
+        style={{
+          padding: '10px 20px',
+          backgroundColor: '#7E4E4E',
+          color: 'white',
+          borderRadius: '5px',
+          cursor: 'pointer',
+          border: 'none',
+          fontSize: '16px',
+          transition: 'background-color 0.3s ease',
+        }}
+        onMouseEnter={(e) => { e.target.style.backgroundColor = '#653E3E'; }}
+        onMouseLeave={(e) => { e.target.style.backgroundColor = '#7E4E4E'; }}
+      >
+        Choose Files
+      </label>
+
       <div style={{ marginTop: '20px' }}>
+        {/* Display a "Remove All" button only if there are images */}
+        {images.length > 0 && (
+          <button
+            onClick={handleRemoveAllImages}
+            style={{
+              marginTop: '10px',
+              marginBottom: '20px',
+              backgroundColor: '#7E4E4E',
+              color: 'white',
+              border: 'none',
+              padding: '10px 20px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              transition: 'background-color 0.3s ease',
+            }}
+            onMouseEnter={(e) => { e.target.style.backgroundColor = '#653E3E'; }}
+            onMouseLeave={(e) => { e.target.style.backgroundColor = '#7E4E4E'; }}
+          >
+            Remove All Images
+          </button>
+        )}
+
+        {/* The rest of the image display logic */}
         {images.map((image, index) => (
           <div key={index} style={{ marginBottom: '10px' }}>
             <img
@@ -91,18 +143,11 @@ function ImageUploader() {
               alt={`Uploaded ${index}`}
               style={{ maxWidth: '100%', maxHeight: '400px', borderRadius: '4px' }}
             />
-            <br />
-            <button onClick={() => handleRemoveImage(index)} style={{ marginTop: '5px' }}>
-              Remove
-            </button>
-            {/* <button onClick={() => generatePlaylist(images)} style={{ marginLeft: '10px' }}>
-              Generate Playlist
-            </button> */}
           </div>
         ))}
       </div>
     </div>
-  )
+  );
 }
 
 export default ImageUploader
