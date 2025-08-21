@@ -133,7 +133,7 @@ return (
           onMouseEnter={(e) => { e.target.style.backgroundColor = '#2257b7'; }}
           onMouseLeave={(e) => { e.target.style.backgroundColor = '#2d6cdf'; }}
         >
-          {loading ? 'Analyzing...' : 'Analyze First Image'}
+          {loading ? 'Analyzing...' : 'Analyze'}
         </button>
       )}
 

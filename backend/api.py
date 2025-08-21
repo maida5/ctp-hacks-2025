@@ -8,6 +8,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.encoders import jsonable_encoder
 import os
 import requests
+from typing import List, Optional  
+
 
 load_dotenv() #Loads backend/ .env
 GEMINI_KEY = os.getenv("GEMINI_KEY")
@@ -37,41 +39,53 @@ def root():
     return {"message": "Hello World"}
 
 @app.post("/analyze")
-async def analyze_image(file: UploadFile = File(...)):
-    # validating the input/ error handeling
-    if not file:
-        raise HTTPException(400, "No file uploaded")
-    content_type = file.content_type or "image/jpeg"
-    if not content_type.startswith("image/"):
-        raise HTTPException(415, f"Unsupported content type: {content_type}")
+async def analyze_images(
+    files: Optional[List[UploadFile]] = File(None),  
+    file: Optional[UploadFile] = File(None),          
+):
+    uploads: List[UploadFile] = []
+    if files:
+        uploads.extend(files)
+    if file:
+        uploads.append(file)
 
-    # read file 
-    image_bytes = await file.read()
+    if not uploads:
+        raise HTTPException(status_code=400, detail="No file(s) uploaded")
 
-    # call gemini
+    # Validate and convert each image
+    parts = []
+    for up in uploads:
+        ctype = (up.content_type or "image/jpeg").lower()
+        if not ctype.startswith("image/"):
+            raise HTTPException(status_code=415, detail=f"Unsupported content type: {ctype} for {up.filename}")
+        data = await up.read()
+        parts.append(types.Part.from_bytes(data=data, mime_type=ctype))
+
+    # Prompt adapts to multiple
+    count = len(parts)
     prompt = (
-        "You are posting this picture on social media. "
-        "Suggest 3–5 specific song titles with artists that match the vibe. "
-        "Return a simple numbered list like:\n"
-        "1) Song - Artist\n2) Song - Artist"
+        f"You are given {count} photo(s). "
+        "Infer their **collective vibe** (mood, energy, aesthetics). "
+        "Then recommend 5–8 songs in the format 'Song – Artist' that match that shared vibe. "
+        "Output:\n"
+        "• A 1–2 sentence vibe summary.\n"
+        "• A numbered list of songs (Song – Artist)."
     )
+
     try:
         response = client.models.generate_content(
             model="gemini-2.5-flash",
-            contents=[
-                types.Part.from_bytes(data=image_bytes, mime_type=content_type),
-                prompt,
-            ],
+            contents=[*parts, prompt],
         )
     except Exception as e:
-        raise HTTPException(500, f"Gemini error: {e}")
+        raise HTTPException(status_code=500, detail=f"Gemini error: {e}")
 
     text = getattr(response, "text", "") or ""
     return jsonable_encoder({
-        "filename": file.filename,
+        "count": count,                 # how many photos were analyzed
         "suggestions_text": text
     })
-# @app.post("/")
+
 # async def make_playlist(file: UploadFile = File(...)):
 #     # load_dotenv()
 #     # api_key = os.getenv('GEMINI_KEY', 'default_key')
