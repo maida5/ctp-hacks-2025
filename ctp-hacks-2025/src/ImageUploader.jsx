@@ -169,7 +169,7 @@ function ImageUploader() {
       ))}
       {/*FOR TESTING. Geminis song suggestions under the uploaded image */}
       {suggestions && (
-          <pre style={{ whiteSpace: 'pre-wrap', textAlign: 'left', marginTop: 12 }}>
+          <pre style={{ whiteSpace: 'pre-wrap', textAlign: 'left', marginTop: 52, color: '#fdf0d5', fontFamily: 'Red Hat Text, sans-serif', fontWeight: 500 }}>
             {suggestions}
           </pre>
         )}
