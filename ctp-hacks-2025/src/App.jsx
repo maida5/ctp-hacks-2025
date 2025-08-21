@@ -1,4 +1,5 @@
 import './App.css'
+import React, { useState, useEffect } from 'react'
 import ImageUploader from './ImageUploader'
 
 function App() {
@@ -22,9 +23,9 @@ function App() {
 //   const [message, setMessage] = useState('')
 
 //   const fetchMessage = async () => {
-//     const res = await fetch('https://ctp-hacks-2025.vercel.app/hello', {
+//     const res = await fetch('https://ctp-hacks-2025.vercel.app/', {
 //         // mode: 'no-cors',
-//         method: 'GET'
+//         method: 'POST'
 //         // headers: {'Access- Control-Allow-Origin': '*'
 //         }
 //     )
