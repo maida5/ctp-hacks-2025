@@ -102,16 +102,16 @@ return (
       htmlFor="file-upload" 
       style={{
         padding: '10px 20px',
-        backgroundColor: '#7E4E4E',
-        color: 'white',
+        backgroundColor: '#FEFAE0',
+        color: 'black',
         borderRadius: '5px',
         cursor: 'pointer',
         border: 'none',
         fontSize: '16px',
         transition: 'background-color 0.3s ease',
       }}
-      onMouseEnter={(e) => { e.target.style.backgroundColor = '#653E3E'; }}
-      onMouseLeave={(e) => { e.target.style.backgroundColor = '#7E4E4E'; }}
+      onMouseEnter={(e) => { e.target.style.backgroundColor = '#e0e1dd'; }}
+      onMouseLeave={(e) => { e.target.style.backgroundColor = '#FEFAE0'; }}
     >
       Choose Files
     </label>
@@ -123,15 +123,15 @@ return (
           style={{
             marginLeft: 10,
             padding: '10px 20px',
-            backgroundColor: '#2d6cdf',
-            color: '#fff',
+            backgroundColor: '#FEFAE0',
+            color: 'black',
             borderRadius: 5,
             border: 'none',
             cursor: 'pointer',
             transition: 'background-color 0.3s ease',
           }}
-          onMouseEnter={(e) => { e.target.style.backgroundColor = '#2257b7'; }}
-          onMouseLeave={(e) => { e.target.style.backgroundColor = '#2d6cdf'; }}
+          onMouseEnter={(e) => { e.target.style.backgroundColor = '#e0e1dd'; }}
+          onMouseLeave={(e) => { e.target.style.backgroundColor = '#FEFAE0'; }}
         >
           {loading ? 'Analyzing...' : 'Analyze'}
         </button>
@@ -145,16 +145,16 @@ return (
           style={{ 
             marginTop: '10px', 
             marginBottom: '20px', 
-            backgroundColor: '#7E4E4E',
-            color: 'white',
+            backgroundColor: '#FEFAE0',
+            color: 'black',
             border: 'none',
             padding: '10px 20px',
             borderRadius: '5px',
             cursor: 'pointer',
             transition: 'background-color 0.3s ease',
           }}
-          onMouseEnter={(e) => { e.target.style.backgroundColor = '#653E3E'; }}
-          onMouseLeave={(e) => { e.target.style.backgroundColor = '#7E4E4E'; }}
+          onMouseEnter={(e) => { e.target.style.backgroundColor = '#e0e1dd'; }}
+          onMouseLeave={(e) => { e.target.style.backgroundColor = '#FEFAE0'; }}
         >
           Remove All Images
         </button>
