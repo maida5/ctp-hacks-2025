@@ -1,4 +1,5 @@
 import './App.css'
+import React, { useState, useEffect } from 'react'
 import ImageUploader from './ImageUploader'
 
 function App() {
@@ -9,6 +10,7 @@ function App() {
       <div className="card">
         <ImageUploader />
       </div>
+
     </div>
   )
 }
