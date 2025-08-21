@@ -2,7 +2,6 @@ import os
 from dotenv import load_dotenv
 import spotipy
 from spotipy.oauth2 import SpotifyOAuth
-# print("Spotify client initialized ✅")
 
 # Load environment variables from .env
 load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '.env'))
@@ -16,8 +15,7 @@ sp = spotipy.Spotify(
         scope=scope,
         client_id=os.getenv("SPOTIPY_CLIENT_ID"),
         client_secret=os.getenv("SPOTIPY_CLIENT_SECRET"),
-        redirect_uri=os.getenv("SPOTIPY_REDIRECT_URI"),
-        open_browser=True
+        redirect_uri=os.getenv("SPOTIPY_REDIRECT_URI")
     )
 )
 
@@ -28,17 +26,3 @@ results = sp.current_user_saved_tracks(limit=10)
 for idx, item in enumerate(results['items']):
     track = item['track']
     print(f"{idx+1}. {track['artists'][0]['name']} - {track['name']}")
-
-print("Spotify client initialized ✅")
-
-# import spotipy
-# from spotipy.oauth2 import SpotifyOAuth
-
-# scope = "user-library-read"
-
-# sp = spotipy.Spotify(auth_manager=SpotifyOAuth(scope=scope))
-
-# results = sp.current_user_saved_tracks()
-# for idx, item in enumerate(results['items']):
-#     track = item['track']
-#     print(idx, track['artists'][0]['name'], " – ", track['name'])
