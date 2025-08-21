@@ -36,6 +36,7 @@ function ImageUploader() {
   const handleRemoveAllImages = () => {
     setImages([]);
     sessionStorage.removeItem('uploadedImages');
+    setSuggestions(null);
   };
 
   // button colors
