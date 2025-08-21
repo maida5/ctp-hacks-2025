@@ -28,15 +28,9 @@ function ImageUploader() {
     })
   }
 
-  // remove a single image
-  // function handleRemoveImage(index) {
-  //   const updatedImages = images.filter((_, i) => i !== index)
-  //   setImages(updatedImages)
-  //   sessionStorage.setItem('uploadedImages', JSON.stringify(updatedImages))
-  // }
-
+  // remove all images
   const handleRemoveAllImages = () => {
-    setImages([]); // This clears the entire array, removing all images
+    setImages([]);
   };
 
 return (
