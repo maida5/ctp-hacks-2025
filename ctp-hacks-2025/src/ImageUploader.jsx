@@ -43,6 +43,8 @@ function ImageUploader() {
     setSuggestions("")                           
     setLoading(false)    
   };
+
+  
 async function analyzeImage() {
     if (images.length === 0) return
     setLoading(true)
@@ -54,7 +56,7 @@ async function analyzeImage() {
       const mimeMatch = base64.match(/^data:(.+);base64,/)
       const mime = (mimeMatch && mimeMatch[1]) ? mimeMatch[1] : "image/png"
 
-      // Convert base64 → File
+      // Convert base64 to File
       const clean = base64.includes(",") ? base64.split(",")[1] : base64
       const byteString = atob(clean)
       const ab = new ArrayBuffer(byteString.length)
@@ -113,7 +115,7 @@ return (
     >
       Choose Files
     </label>
-
+{/*Analyze upload button when there is a image */}
 {images.length > 0 && (
         <button
           onClick={analyzeImage}
@@ -136,7 +138,7 @@ return (
       )}
 
     <div style={{ marginTop: '20px' }}>
-      {/* Display a "Remove All" button only if there are images */}
+      {/* Displays a "Remove All" button if there are images */}
       {images.length > 0 && (
         <button 
           onClick={handleRemoveAllImages} 
@@ -168,6 +170,7 @@ return (
           />
         </div>
       ))}
+      {/*FOR TESTING. Geminis song suggestions under the uploaded image */}
       {suggestions && (
           <pre style={{ whiteSpace: 'pre-wrap', textAlign: 'left', marginTop: 12 }}>
             {suggestions}
