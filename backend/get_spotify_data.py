@@ -9,7 +9,7 @@ def set_up_spotify_client():
     load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '.env'))
 
     # Define the scope: adjust based on what data you need
-    scope = ["user-library-read","user-top-read", "playlist-modify-public"]
+    scope = ["user-library-read","user-top-read", "playlist-modify-public", "playlist-modify-private"]
     # allows reading your saved tracks
 
     # Authenticate with Spotify using OAuth
@@ -28,7 +28,7 @@ def get_spotify_top_songs():
     sp = set_up_spotify_client()
 
     # Get the user's saved tracks
-    print("Fetching your saved tracks...")
+    # print("Fetching your saved tracks...")
     results = sp.current_user_top_tracks(limit=50, offset=0, time_range='medium_term')
 
     # pprint.pp(results['items'][0]['album']['name'])
@@ -51,8 +51,8 @@ def get_spotify_top_songs():
         top_songs += "\n"
         
         # pprint.pp(f"Artist: {track['artists']}")
-    print("Top songs:")
-    print(top_songs)
+    # print("Top songs:")
+    # print(top_songs)
     return top_songs
 
 def return_spotify_songs():
@@ -82,8 +82,4 @@ def add_tracks_to_playlist(playlist_id, track_ids):
     sp.playlist_add_items(playlist_id, track_ids)
     print(f"Added tracks to playlist {playlist_id}")
 
-print(return_spotify_songs())
-playlist_id = create_playlist()
-song_id = return_spotify_songs()
-add_tracks_to_playlist(playlist_id, [song_id])
 
