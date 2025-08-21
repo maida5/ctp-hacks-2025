@@ -1,51 +1,47 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react';
 
 function ImageUploader() {
-  const [images, setImages] = useState([])
-  const [suggestions, setSuggestions] = useState("") 
-  const [loading, setLoading] = useState(false)
+  const [images, setImages] = useState([]);
+  const [isHovering, setIsHovering] = useState(false);
+  // const fileInputRef = useRef(null); 
+  const [suggestions, setSuggestions] = useState(null);
+   const [loading, setLoading] = useState(false)
 
   // load upload images from sessionStorage
   useEffect(() => {
-    const savedImages = sessionStorage.getItem('uploadedImages')
+    const savedImages = sessionStorage.getItem('uploadedImages');
     if (savedImages) {
-      setImages(JSON.parse(savedImages))
+      setImages(JSON.parse(savedImages));
     }
-  }, [])
+  }, []);
 
   // handle multiple image uploads
   function handleImageUpload(event) {
-    const files = Array.from(event.target.files)
+    const files = Array.from(event.target.files);
     files.forEach(file => {
-      const reader = new FileReader()
+      const reader = new FileReader();
       reader.onload = () => {
-        const base64 = reader.result
+        const base64 = reader.result;
         setImages(prevImages => {
-          const updatedImages = [...prevImages, base64]
-          sessionStorage.setItem('uploadedImages', JSON.stringify(updatedImages))
-          return updatedImages
-        })
-      }
-      reader.readAsDataURL(file)
-    })
+          const updatedImages = [...prevImages, base64];
+          sessionStorage.setItem('uploadedImages', JSON.stringify(updatedImages));
+          return updatedImages;
+        });
+      };
+      reader.readAsDataURL(file);
+    });
   }
 
-  // remove a single image
-  // function handleRemoveImage(index) {
-  //   const updatedImages = images.filter((_, i) => i !== index)
-  //   setImages(updatedImages)
-  //   sessionStorage.setItem('uploadedImages', JSON.stringify(updatedImages))
-  // }
-
+  // remove all images
   const handleRemoveAllImages = () => {
-    setImages([]); // This clears the entire array, removing all images
-    sessionStorage.removeItem('uploadedImages') 
-    setSuggestions("")                           
-    setLoading(false)    
+    setImages([]);
+    sessionStorage.removeItem('uploadedImages');
   };
 
-  
-async function analyzeImage() {
+  // button colors
+  const buttonColor = isHovering ? '#653E3E' : '#7E4E4E';
+
+  async function analyzeImage() {
     if (images.length === 0) return
     setLoading(true)
     setSuggestions("")
@@ -87,7 +83,8 @@ async function analyzeImage() {
     }
   }
 
-return (
+
+  return (
   <div style={{ textAlign: 'center', marginTop: '20px' }}>
     <input
       type="file"
