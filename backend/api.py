@@ -111,7 +111,6 @@ async def analyze_images(
 #     # console.log(response.text)
 #     # return jsonable_encoder(response.text)
 #     return {file.filename: "File received successfully"}
-=======
 # @app.post("/")
 # async def make_playlist(filedata: str = Form(...)):
 #     load_dotenv()
