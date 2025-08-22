@@ -30,9 +30,15 @@ client =genai.Client(api_key=GEMINI_KEY)
 
 app = FastAPI()
 
+
 app.add_middleware(
     CORSMiddleware,
     # allow_origins=["https://ctp-hacks-2025-maida5s-projects.vercel.app/","https://ctp-hacks-2025-maida5-maida5s-projects.vercel.app/"],  # Or specify your frontend URL
+   allow_origins=[
+        "http://localhost:5173", "http://127.0.0.1:5173",
+        "http://localhost:3000", "http://127.0.0.1:3000",
+        "*" 
+    ],
    allow_origins=[
         "http://localhost:5173", "http://127.0.0.1:5173",
         "http://localhost:3000", "http://127.0.0.1:3000",
@@ -93,6 +99,7 @@ def extract_summary_and_pairs(text: str):
 
 @app.get("/hello")
 def root():
+    print("Hello World")
     print("Hello World")
     return {"message": "Hello World"}
 
@@ -247,6 +254,7 @@ async def analyze_images(
 #     print(response.text)
 #     return jsonable_encoder(response.text)
 #     # return {file.filename: "File received successfully"}
+
 
 # import requests
 
