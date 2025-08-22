@@ -158,7 +158,7 @@ async def analyze_images(
     misses: List[dict] = []
     for song, artist in pairs:
         try:
-            uri = return_spotify_songs(artist=artist, song=song, market="US")
+            uri = return_spotify_songs(artist=artist, song=song, market="US",sp=sp)
         except Exception as e:
             uri = None
         if uri:
@@ -213,6 +213,7 @@ async def analyze_images(
             "id": playlist["id"],
             "name": playlist_display_name,
             "url": playlist_url,
+            "uri": playlist.get("uri"),
             "public": playlist_public,
         },
         "suggestions_text": text,
