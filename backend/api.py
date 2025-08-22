@@ -17,6 +17,7 @@ from spotipy.oauth2 import SpotifyOAuth
 
 from get_spotify_data import (
     set_up_spotify_client,
+    get_spotify_top_songs,
     return_spotify_songs,     
     add_tracks_to_playlist,   
 )
@@ -112,7 +113,7 @@ async def analyze_images(
 
     if not uploads:
         raise HTTPException(status_code=400, detail="No file(s) uploaded")
-    print("hi")
+
     # Validate and convert each image
     parts = []
     for up in uploads:
@@ -122,17 +123,19 @@ async def analyze_images(
         data = await up.read()
         parts.append(types.Part.from_bytes(data=data, mime_type=ctype))
 
+    top_songs = get_spotify_top_songs()
+
     # prompt adapts to multiple 
     count = len(parts)
     prompt = (
         f"You are given {count} photo(s) and spotify user data and their top 50 songs. "
         "Infer their **collective vibe** (mood, energy, aesthetics). "
+        f"These are their top 50 songs: {top_songs}. "
         "Then recommend 5–8 songs in the format 'Song – Artist' that match that shared vibe while incorporating their own music taste. "
         "Output:\n"
         "• A 2 sentence vibe summary of the songs.\n"
         "• A numbered list of songs (Song – Artist)."
     )
-    print("hello")
     try:
         response = client.models.generate_content(
             model="gemini-2.5-flash",

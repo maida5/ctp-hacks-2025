@@ -43,7 +43,7 @@ function ImageUploader() {
   };
 
   // button colors
-  
+
   async function analyzeImage() {
     if (images.length === 0) return
     setLoading(true)
@@ -79,7 +79,7 @@ function ImageUploader() {
 
       const data = await res.json() // { filename, suggestions_text }
       setSuggestions(data.suggestions_text || "No suggestions returned")
-      setUri(data.uri || "spotify:playlist:37i9dQZF1DZ06evO3eIivx")
+      setUri(data.playlist.uri || "spotify:playlist:37i9dQZF1DZ06evO3eIivx")
     } catch (err) {
       setSuggestions("Error: " + (err?.message || String(err)))
     } finally {
