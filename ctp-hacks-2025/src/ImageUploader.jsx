@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 // import UseScript from './useScript';
 import Iframe from './iframe';
 
 function ImageUploader() {
   const [images, setImages] = useState([]);
-  const [isHovering, setIsHovering] = useState(false);
   // const fileInputRef = useRef(null); 
   const [suggestions, setSuggestions] = useState(null);
   const [uri, setUri] = useState(null);
@@ -44,8 +43,7 @@ function ImageUploader() {
   };
 
   // button colors
-  const buttonColor = isHovering ? '#653E3E' : '#7E4E4E';
-
+  
   async function analyzeImage() {
     if (images.length === 0) return
     setLoading(true)
