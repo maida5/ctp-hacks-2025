@@ -1,10 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
+// import UseScript from './useScript';
+import Iframe from './iframe';
 
 function ImageUploader() {
   const [images, setImages] = useState([]);
   const [isHovering, setIsHovering] = useState(false);
   // const fileInputRef = useRef(null); 
   const [suggestions, setSuggestions] = useState(null);
+  const [uri, setUri] = useState(null);
   const [loading, setLoading] = useState(false)
 
   // load upload images from sessionStorage
@@ -37,6 +40,7 @@ function ImageUploader() {
     setImages([]);
     sessionStorage.removeItem('uploadedImages');
     setSuggestions(null);
+    setUri(null);
   };
 
   // button colors
@@ -77,11 +81,13 @@ function ImageUploader() {
 
       const data = await res.json() // { filename, suggestions_text }
       setSuggestions(data.suggestions_text || "No suggestions returned")
+      setUri(data.uri || "spotify:playlist:37i9dQZF1DZ06evO3eIivx")
     } catch (err) {
       setSuggestions("Error: " + (err?.message || String(err)))
     } finally {
       setLoading(false)
     }
+
   }
 
 
@@ -173,6 +179,9 @@ function ImageUploader() {
           <pre style={{ whiteSpace: 'pre-wrap', textAlign: 'left', marginTop: 52, color: '#fdf0d5', fontFamily: 'Red Hat Text, sans-serif', fontWeight: 500 }}>
             {suggestions}
           </pre>
+        )}
+        {uri && (
+          <Iframe uri={uri} />
         )}
       </div>
     </div>
