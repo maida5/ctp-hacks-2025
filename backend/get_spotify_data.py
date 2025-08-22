@@ -4,12 +4,14 @@ import spotipy
 from spotipy.oauth2 import SpotifyOAuth
 import pprint
 
+
+
 def set_up_spotify_client():
     # Load environment variables from .env
     load_dotenv(dotenv_path=os.path.join(os.path.dirname(__file__), '.env'))
 
     # Define the scope: adjust based on what data you need
-    scope = ["user-library-read","user-top-read", "playlist-modify-public"]
+    scope = ["user-library-read","user-top-read", "playlist-modify-public", "playlist-modify-private"]
     # allows reading your saved tracks
 
     # Authenticate with Spotify using OAuth
@@ -22,6 +24,12 @@ def set_up_spotify_client():
         )
     )
     return sp
+
+def _quote(term: str) -> str:
+    term = (term or "").strip().replace('"', r'\"')
+    return f'"{term}"' if " " in term else term
+
+
 
 
 def get_spotify_top_songs():
@@ -57,15 +65,14 @@ def get_spotify_top_songs():
 
 def return_spotify_songs():
     sp = set_up_spotify_client()
-
-    artist = "Duran Duran"
-    artist = artist.replace(" ", "%20")
-    song = "Union of the Snake"
-    song = song.replace(" ", "%20")
-    q = f"{artist}%20{song}"
-    track = sp.search(q=q, type='track', limit=1)
-    # print(track)
-    return track['tracks']['items'][0]['uri']
+#input artist and song name as a parameter 
+#needs input from gemini to get uri ID, but currently only in testing mode. need to call multiple times, only gets one song at a time 
+    q=f'track:"{song}" artist: "{artist}"'
+    res=sp.search(q=q, type="track", limit =1, market=market) 
+    items=res.get("tracks",{}).get("items",[])
+    if not items: 
+        return None
+    return items[0]["uri"]
 
 def create_playlist():
     sp = set_up_spotify_client()
@@ -81,6 +88,21 @@ def add_tracks_to_playlist(playlist_id, track_ids):
     sp = set_up_spotify_client()
     sp.playlist_add_items(playlist_id, track_ids)
     print(f"Added tracks to playlist {playlist_id}")
+
+
+def add_tracks_batched(
+    playlist_id: str,
+    track_ids: List[str],
+    *,
+    batch_size: int = 100,
+    sp: Optional[spotipy.Spotify] = None,
+):
+    """
+    Add tracks in batches of ≤100 (Spotify API limit).
+    """
+    sp = sp or set_up_spotify_client()
+    for i in range(0, len(track_ids), batch_size):
+        sp.playlist_add_items(playlist_id, track_ids[i:i + batch_size])
 
 print(return_spotify_songs())
 playlist_id = create_playlist()
