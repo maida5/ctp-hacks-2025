@@ -39,11 +39,6 @@ app.add_middleware(
         "http://localhost:3000", "http://127.0.0.1:3000",
         "*" 
     ],
-   allow_origins=[
-        "http://localhost:5173", "http://127.0.0.1:5173",
-        "http://localhost:3000", "http://127.0.0.1:3000",
-        "*" 
-    ],
     allow_credentials=False,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -117,7 +112,7 @@ async def analyze_images(
 
     if not uploads:
         raise HTTPException(status_code=400, detail="No file(s) uploaded")
-
+    print("hi")
     # Validate and convert each image
     parts = []
     for up in uploads:
@@ -137,7 +132,7 @@ async def analyze_images(
         "• A 2 sentence vibe summary of the songs.\n"
         "• A numbered list of songs (Song – Artist)."
     )
-
+    print("hello")
     try:
         response = client.models.generate_content(
             model="gemini-2.5-flash",
@@ -224,6 +219,7 @@ async def analyze_images(
             "public": playlist_public,
         },
         "suggestions_text": text,
+     
     })
 
 # @app.post("/")

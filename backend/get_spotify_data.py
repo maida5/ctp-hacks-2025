@@ -68,9 +68,9 @@ def create_playlist(name = "My Playlist", description="A playlist created by my 
     playlist = sp.user_playlist_create(user=user_id, name=name, public=public, description=description)
     return playlist["id"]
 
-def add_tracks_to_playlist(playlist_id, track_ids):
+def add_tracks_to_playlist(playlist_id, track_id, sp=None):
     sp = sp or set_up_spotify_client()
-    sp.playlist_add_items(playlist_id, track_ids)
+    sp.playlist_add_items(playlist_id, track_id)
     #print(f"Added tracks to playlist {playlist_id}")
 
 
