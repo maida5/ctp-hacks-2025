@@ -45,6 +45,9 @@ async def analyze_images(
     files: Optional[List[UploadFile]] = File(None),  
     file: Optional[UploadFile] = File(None),          
 ):
+    from get_spotify_data import get_spotify_top_songs
+    top_songs = get_spotify_top_songs()
+
     uploads: List[UploadFile] = []
     if files:
         uploads.extend(files)
@@ -66,11 +69,12 @@ async def analyze_images(
     # Prompt adapts to multiple
     count = len(parts)
     prompt = (
-        f"You are given {count} photo(s). "
-        "Infer their **collective vibe** (mood, energy, aesthetics). "
-        "Then recommend 5–8 songs in the format 'Song – Artist' that match that shared vibe. "
+        f"You are given {count} photo(s) and spotify user data and their top 50 songs. "
+        f"These are their top 50 songs: {top_songs}. "
+        "Infer their collective vibe (mood, energy, aesthetics). "
+        "Then recommend 5–8 songs in the format 'Song – Artist' that match that shared vibe while incorporating their own music taste. "
         "Output:\n"
-        "• A 1–2 sentence vibe summary.\n"
+        "• A 2 sentence vibe summary.\n"
         "• A numbered list of songs (Song – Artist)."
     )
 

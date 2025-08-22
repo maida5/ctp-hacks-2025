@@ -1,11 +1,14 @@
 import React, { useState, useEffect, useRef } from 'react';
+// import UseScript from './useScript';
+import Iframe from './iframe';
 
 function ImageUploader() {
   const [images, setImages] = useState([]);
   const [isHovering, setIsHovering] = useState(false);
   // const fileInputRef = useRef(null); 
   const [suggestions, setSuggestions] = useState(null);
-   const [loading, setLoading] = useState(false)
+  const [uri, setUri] = useState(null);
+  const [loading, setLoading] = useState(false)
 
   // load upload images from sessionStorage
   useEffect(() => {
@@ -37,6 +40,7 @@ function ImageUploader() {
     setImages([]);
     sessionStorage.removeItem('uploadedImages');
     setSuggestions(null);
+    setUri(null);
   };
 
   // button colors
@@ -77,44 +81,46 @@ function ImageUploader() {
 
       const data = await res.json() // { filename, suggestions_text }
       setSuggestions(data.suggestions_text || "No suggestions returned")
+      setUri(data.uri || "spotify:playlist:37i9dQZF1DZ06evO3eIivx")
     } catch (err) {
       setSuggestions("Error: " + (err?.message || String(err)))
     } finally {
       setLoading(false)
     }
+
   }
 
 
   return (
-  <div style={{ textAlign: 'center', marginTop: '20px' }}>
-    <input
-      type="file"
-      id="file-upload"
-      accept="image/*"
-      multiple
-      onChange={handleImageUpload}
-      style={{ display: 'none' }}
-    />
-    
-    <label 
-      htmlFor="file-upload" 
-      style={{
-        padding: '10px 20px',
-        backgroundColor: '#FEFAE0',
-        color: 'black',
-        borderRadius: '5px',
-        cursor: 'pointer',
-        border: 'none',
-        fontSize: '16px',
-        transition: 'background-color 0.3s ease',
-      }}
-      onMouseEnter={(e) => { e.target.style.backgroundColor = '#e0e1dd'; }}
-      onMouseLeave={(e) => { e.target.style.backgroundColor = '#FEFAE0'; }}
-    >
-      Choose Files
-    </label>
-{/*Analyze upload button when there is a image */}
-{images.length > 0 && (
+    <div style={{ textAlign: 'center', marginTop: '20px' }}>
+      <input
+        type="file"
+        id="file-upload"
+        accept="image/*"
+        multiple
+        onChange={handleImageUpload}
+        style={{ display: 'none' }}
+      />
+
+      <label
+        htmlFor="file-upload"
+        style={{
+          padding: '10px 20px',
+          backgroundColor: '#FEFAE0',
+          color: 'black',
+          borderRadius: '5px',
+          cursor: 'pointer',
+          border: 'none',
+          fontSize: '16px',
+          transition: 'background-color 0.3s ease',
+        }}
+        onMouseEnter={(e) => { e.target.style.backgroundColor = '#e0e1dd'; }}
+        onMouseLeave={(e) => { e.target.style.backgroundColor = '#FEFAE0'; }}
+      >
+        Choose Files
+      </label>
+      {/*Analyze upload button when there is a image */}
+      {images.length > 0 && (
         <button
           onClick={analyzeImage}
           disabled={loading}
@@ -135,48 +141,51 @@ function ImageUploader() {
         </button>
       )}
 
-    <div style={{ marginTop: '20px' }}>
-      {/* Displays a "Remove All" button if there are images */}
-      {images.length > 0 && (
-        <button 
-          onClick={handleRemoveAllImages} 
-          style={{ 
-            marginTop: '10px', 
-            marginBottom: '20px', 
-            backgroundColor: '#FEFAE0',
-            color: 'black',
-            border: 'none',
-            padding: '10px 20px',
-            borderRadius: '5px',
-            cursor: 'pointer',
-            transition: 'background-color 0.3s ease',
-          }}
-          onMouseEnter={(e) => { e.target.style.backgroundColor = '#e0e1dd'; }}
-          onMouseLeave={(e) => { e.target.style.backgroundColor = '#FEFAE0'; }}
-        >
-          Remove All Images
-        </button>
-      )}
+      <div style={{ marginTop: '20px' }}>
+        {/* Displays a "Remove All" button if there are images */}
+        {images.length > 0 && (
+          <button
+            onClick={handleRemoveAllImages}
+            style={{
+              marginTop: '10px',
+              marginBottom: '20px',
+              backgroundColor: '#FEFAE0',
+              color: 'black',
+              border: 'none',
+              padding: '10px 20px',
+              borderRadius: '5px',
+              cursor: 'pointer',
+              transition: 'background-color 0.3s ease',
+            }}
+            onMouseEnter={(e) => { e.target.style.backgroundColor = '#e0e1dd'; }}
+            onMouseLeave={(e) => { e.target.style.backgroundColor = '#FEFAE0'; }}
+          >
+            Remove All Images
+          </button>
+        )}
 
-      {/* The rest of the image display logic */}
-      {images.map((image, index) => (
-        <div key={index} style={{ marginBottom: '10px' }}>
-          <img
-            src={image}
-            alt={`Uploaded ${index}`}
-            style={{ maxWidth: '100%', maxHeight: '400px', borderRadius: '4px' }}
-          />
-        </div>
-      ))}
-      {/*FOR TESTING. Geminis song suggestions under the uploaded image */}
-      {suggestions && (
+        {/* The rest of the image display logic */}
+        {images.map((image, index) => (
+          <div key={index} style={{ marginBottom: '10px' }}>
+            <img
+              src={image}
+              alt={`Uploaded ${index}`}
+              style={{ maxWidth: '100%', maxHeight: '400px', borderRadius: '4px' }}
+            />
+          </div>
+        ))}
+        {/*FOR TESTING. Geminis song suggestions under the uploaded image */}
+        {suggestions && (
           <pre style={{ whiteSpace: 'pre-wrap', textAlign: 'left', marginTop: 52, color: '#fdf0d5', fontFamily: 'Red Hat Text, sans-serif', fontWeight: 500 }}>
             {suggestions}
           </pre>
         )}
+        {uri && (
+          <Iframe uri={uri} />
+        )}
+      </div>
     </div>
-  </div>
-);
+  );
 }
 
 export default ImageUploader
