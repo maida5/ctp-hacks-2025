@@ -82,7 +82,7 @@ def extract_summary_and_pairs(text: str):
             if song and artist:
                 pairs.append((song, artist))
 
-    # de-dup preserve order
+    #  preserve order
     seen, uniq = set(), []
     for s, a in pairs:
         key = (s.lower(), a.lower())
@@ -193,7 +193,7 @@ async def analyze_images(
  #adding the uris in baches of less than or equal to 100
     try:
         for i in range(0, len(uris), 100):
-            add_tracks_to_playlist(playlist["id"], uris[i:i+100])
+            add_tracks_to_playlist(playlist["id"], uris[i:i+100], sp=sp)
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Spotify add-tracks error: {e}")
 
