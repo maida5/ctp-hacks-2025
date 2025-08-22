@@ -48,6 +48,7 @@ function ImageUploader() {
     if (images.length === 0) return
     setLoading(true)
     setSuggestions("")
+    setUri(null)
 
     try {
       // Take first image (data URL / base64)
@@ -78,7 +79,7 @@ function ImageUploader() {
       }
 
       const data = await res.json() // { filename, suggestions_text }
-      setSuggestions(data.suggestions_text || "No suggestions returned")
+      setSuggestions(data.summary || "No suggestions returned")
       setUri(data.playlist.uri || "spotify:playlist:37i9dQZF1DZ06evO3eIivx")
     } catch (err) {
       setSuggestions("Error: " + (err?.message || String(err)))
